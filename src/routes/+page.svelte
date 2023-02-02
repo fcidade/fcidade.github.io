@@ -1,7 +1,5 @@
-<div class="container is-max-desktop">
-	<section class="box">
-		<header>
-            <h1><a href="/sketches/">Sketches</a></h1>
-        </header>
+<div class="container bg-white p-4 border rounded col-md-6">
+	<section>
+		<h3><a href="/p5-sketches/">Sketches</a></h3>
 	</section>
 </div>
