@@ -1,2 +1,7 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<div class="container is-max-desktop">
+	<section class="box">
+		<header>
+            <h1><a href="/sketches/">Sketches</a></h1>
+        </header>
+	</section>
+</div>
