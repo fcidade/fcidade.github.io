@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import type { Sketch } from "p5-svelte";
-import { sketches } from "../../../sketches/p5";
+import { sketches } from "../../../sketches/p5/sketches";
 
 export type LoadRequest = { params: { slug: string } };
 
