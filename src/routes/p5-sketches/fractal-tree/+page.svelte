@@ -2,14 +2,12 @@
 	import type { p5, Sketch } from 'p5-svelte';
 	import P5 from 'p5-svelte/P5.svelte';
 	import SketchContainer from '../../components/SketchContainer.svelte';
-	import SketchFooter from '../../components/SketchFooter.svelte';
+	import SketchBlogContent from '../../components/SketchBlogContent.svelte';
 	import SketchHeader from '../../components/SketchHeader.svelte';
 	const { PI } = Math;
 
 	const width = 500,
 		height = 500;
-
-	const iterations = 10;
 
 	class Vec2 {
 		constructor(readonly x: number, readonly y: number) {}
@@ -38,75 +36,122 @@
 		}
 	}
 
+	type BranchConfig = {
+		pos: Vec2;
+		angle: number;
+		randomizedAngle: number;
+		length: number;
+		index: number;
+		maxIterations: number;
+		branchGenerationChance: number;
+	};
+
 	class Branch {
 		children: Branch[] = [];
 
 		constructor(
-			private readonly p5: p5,
-			private readonly feet: Vec2,
+			private readonly pos: Vec2,
 			private readonly angle: number,
 			private readonly length: number,
-			private readonly index: number
+			private readonly index: number,
+			maxIterations: number,
+			randomizedAngle: number,
+			branchGenerationChance: number
 		) {
-			if (index < iterations) {
-				const leftBranch = new Branch(
-					p5,
-					this.top(),
-					angle + -PI / 8,
-					this.length * 0.9,
-					index + 1
-				);
-				const rightBranch = new Branch(
-					p5,
-					this.top(),
-					angle + PI / 8,
-					this.length * 0.9,
-					index + 1
-				);
-
-				if (Math.random() > 0.1) {
-					this.children.push(leftBranch);
+			if (index < maxIterations) {
+				if (Math.random() < branchGenerationChance) {
+					this.children.push(
+						Branch.from({
+							pos: this.top(),
+							angle: angle + PI / 8 + randomizedAngle  * (Math.random() - .5),
+							length: length * 0.9,
+							index: index + 1,
+							maxIterations,
+							branchGenerationChance,
+							randomizedAngle,
+						})
+					);
 				}
-				if (Math.random() > 0.1) {
-					this.children.push(rightBranch);
+				if (Math.random() < branchGenerationChance) {
+					this.children.push(
+						Branch.from({
+							pos: this.top(),
+							angle: angle - PI / 8 + randomizedAngle  * (Math.random() - .5),
+							length: length * 0.9,
+							index: index + 1,
+							maxIterations,
+							branchGenerationChance,
+							randomizedAngle,
+						})
+					);
 				}
 			}
 		}
 
-		top(): Vec2 {
-			const dir = new Vec2(0, -this.length).rotRad(this.angle);
-			return this.feet.add(dir);
+		static from({
+			pos,
+			maxIterations,
+			angle,
+			length,
+			index,
+			branchGenerationChance,
+			randomizedAngle,
+		}: BranchConfig) {
+			return new Branch(pos, angle, length, index, maxIterations, randomizedAngle, branchGenerationChance);
 		}
 
-		draw() {
+		top(): Vec2 {
+			const dir = new Vec2(0, -this.length).rotRad(this.angle);
+			return this.pos.add(dir);
+		}
+
+		draw(p5: p5) {
 			const top = this.top();
 
-			this.p5.strokeWeight(this.p5.map(this.index, 0, iterations, 10, 1));
-			this.p5.stroke(153, 50, 204, this.p5.map(this.index, 0, iterations, 255, 50));
-			// this.p5.stroke("black");
-			this.p5.line(this.feet.x, this.feet.y, top.x, top.y);
+			p5.strokeWeight(p5.map(this.index, 0, maxIterationsOption, 10, 1));
+			p5.stroke(153, 50, 204, p5.map(this.index, 0, maxIterationsOption, 255, 50));
+			// p5.stroke("black");
+			p5.line(this.pos.x, this.pos.y, top.x, top.y);
 
-			// this.p5.stroke("blue");
-			// this.p5.point(this.feet.x, this.feet.y);
+			// p5.stroke("blue");
+			// p5.point(this.pos.x, this.pos.y);
 
-			// this.p5.stroke("red");
-			// this.p5.point(top.x, top.y);
+			// p5.stroke("red");
+			// p5.point(top.x, top.y);
 
-			this.children.forEach((c) => c.draw());
+			this.children.forEach((c) => c.draw(p5));
 		}
 	}
 
-	export const sketch: Sketch = (p5: p5) => {
-		const branch = new Branch(p5, new Vec2(width / 2, height * 0.8), 0, 50, 0);
+	let branch: Branch;
 
+	let initialAngleOption = 0;
+	let randomizedAngleOption = 0;
+	let maxIterationsOption = 10;
+	let branchGenerationChanceOption = 1;
+
+	const generate = () => {
+		branch = Branch.from({
+			pos: new Vec2(width / 2, height * 0.8),
+			angle: initialAngleOption,
+			randomizedAngle: randomizedAngleOption,
+			length: 50,
+			index: 0,
+			maxIterations: maxIterationsOption,
+			branchGenerationChance: branchGenerationChanceOption
+		});
+	};
+
+	$: initialAngleOption, randomizedAngleOption, maxIterationsOption, branchGenerationChanceOption, generate();
+
+	export const sketch: Sketch = (p5: p5) => {
 		p5.setup = () => {
 			p5.createCanvas(width, height);
 		};
 
 		p5.draw = () => {
 			p5.background(230);
-			branch.draw();
-			p5.noLoop();
+			branch.draw(p5);
 		};
 	};
 </script>
@@ -115,10 +160,55 @@
 
 <SketchContainer>
 	<P5 {sketch} />
+
+	<label for="initial-angle">Ângulo inicial:</label>
+	<input
+		type="range"
+		name="initial-angle"
+		id="initial-angle"
+		bind:value={initialAngleOption}
+		min={-PI}
+		max={PI}
+		step="0.01"
+	/>
+
+	<label for="randomized-angle">Randomização do ângulo:</label>
+	<input
+		type="range"
+		name="randomized-angle"
+		id="randomized-angle"
+		bind:value={randomizedAngleOption}
+		min={0}
+		max={PI}
+		step="0.01"
+	/>
+
+	<label for="iterations">Iterações:</label>
+	<input
+		type="range"
+		name="iterations"
+		id="iterations"
+		bind:value={maxIterationsOption}
+		min="0"
+		max="15"
+	/>
+
+	<label for="amount">Chance do galho ser gerado:</label>
+	<input
+		type="range"
+		name="amount"
+		id="amount"
+		bind:value={branchGenerationChanceOption}
+		min="0"
+		max="1"
+		step="0.01"
+	/>
+
+	<button on:click={generate}>Novo</button>
 </SketchContainer>
 
-<SketchFooter>
+<SketchBlogContent>
 	Inspirado pelo vídeo
 	<a href="https://www.youtube.com/watch?v=0jjeOYMjmDU">Fractal Tree</a>
 	do Daniel Shiffman.
-</SketchFooter>
+</SketchBlogContent>

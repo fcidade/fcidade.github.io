@@ -2,7 +2,7 @@
 	import type { p5, Sketch } from 'p5-svelte';
 	import P5 from 'p5-svelte/P5.svelte';
 	import SketchContainer from '../../components/SketchContainer.svelte';
-	import SketchFooter from '../../components/SketchFooter.svelte';
+	import SketchBlogContent from '../../components/SketchBlogContent.svelte';
 	import SketchHeader from '../../components/SketchHeader.svelte';
 
 	let speedOption: number = 10;
@@ -77,8 +77,8 @@
 	<input type="range" name="amount" id="amount" bind:value={amountOption} min="0" max="1000"/>
 </SketchContainer>
 
-<SketchFooter>
+<SketchBlogContent>
 	Inspirado pelo vídeo
 	<a href="https://www.youtube.com/watch?v=KkyIDI6rQJI">Purple Rain</a>
 	do Daniel Shiffman.
-</SketchFooter>
+</SketchBlogContent>
