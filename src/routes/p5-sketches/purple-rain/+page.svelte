@@ -1,10 +1,12 @@
 <script lang="ts">
-	import type { Element } from 'p5';
 	import type { p5, Sketch } from 'p5-svelte';
 	import P5 from 'p5-svelte/P5.svelte';
 	import SketchContainer from '../../components/SketchContainer.svelte';
 	import SketchFooter from '../../components/SketchFooter.svelte';
 	import SketchHeader from '../../components/SketchHeader.svelte';
+
+	let speedOption: number = 10;
+	let amountOption: number = 10;
 
 	const width = 400,
 		height = 400;
@@ -16,7 +18,7 @@
 		tailSize = 0;
 		speed = 0;
 
-		constructor(private readonly p5: p5) {
+		constructor() {
 			this.reset();
 		}
 
@@ -28,9 +30,9 @@
 			this.speed = Math.random() * 20;
 		}
 
-		draw(speedMultiplier: number) {
-			const a = this.p5.map(this.z, 0, 3, 0, 100);
-			this.p5.stroke(153 - a, 50 - a, 204 - a);
+		draw(p5: p5, speedMultiplier: number) {
+			const a = p5.map(this.z, 0, 3, 0, 100);
+			p5.stroke(153 - a, 50 - a, 204 - a);
 
 			this.y += this.speed * speedMultiplier;
 			if (this.y > 800) {
@@ -38,30 +40,27 @@
 				this.y = -this.tailSize;
 			}
 
-			this.p5.strokeWeight(this.z);
+			p5.strokeWeight(this.z);
 
-			this.p5.line(this.x, this.y, this.x, this.y + this.tailSize);
+			p5.line(this.x, this.y, this.x, this.y + this.tailSize);
 		}
 	}
 
+	let rainDrops: RainDrop[] = [];
+
+	$: {
+		rainDrops = Array.from({ length: amountOption }).map(() => new RainDrop());
+	}
+
 	export const sketch: Sketch = (p5: p5) => {
-		const rainDrops = Array.from({ length: 10000 }).map(() => new RainDrop(p5));
-
-		let speedMultiplier: Element;
-
 		p5.setup = () => {
 			p5.createCanvas(width, height);
-
-			const label = p5.createSpan('Speed:');
-			label.style('display', 'block');
-			speedMultiplier = p5.createSlider(0, 10, 0.5, 0.001);
-			speedMultiplier.style('display', 'block');
 		};
 
 		p5.draw = () => {
 			p5.background(200);
 
-			rainDrops.forEach((rainDrop) => rainDrop.draw(Number(speedMultiplier.value())));
+			rainDrops.forEach((rainDrop) => rainDrop.draw(p5, Number(speedOption)));
 		};
 	};
 </script>
@@ -70,10 +69,16 @@
 
 <SketchContainer>
 	<P5 {sketch} />
+
+	<label for="speed">Velocidade:</label>
+	<input type="range" name="speed" id="speed" bind:value={speedOption} min="0" max="100"/>
+
+	<label for="amount">Quantidade:</label>
+	<input type="range" name="amount" id="amount" bind:value={amountOption} min="0" max="1000"/>
 </SketchContainer>
 
 <SketchFooter>
 	Inspirado pelo vídeo
 	<a href="https://www.youtube.com/watch?v=KkyIDI6rQJI">Purple Rain</a>
-	do  Daniel Shiffman.
+	do Daniel Shiffman.
 </SketchFooter>

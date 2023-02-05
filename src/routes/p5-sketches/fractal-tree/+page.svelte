@@ -48,7 +48,6 @@
 			private readonly length: number,
 			private readonly index: number
 		) {
-			console.log(length);
 			if (index < iterations) {
 				const leftBranch = new Branch(
 					p5,
