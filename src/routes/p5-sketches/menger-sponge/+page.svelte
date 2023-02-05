@@ -74,7 +74,7 @@
 		}
 	}
 
-	let sponge = new Sponge(Vec3.zero(), 100, 0);
+	const sponge = new Sponge(Vec3.zero(), 100, 0);
 
 	export const sketch: Sketch = (p5: p5) => {
 		p5.setup = () => {

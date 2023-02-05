@@ -4,37 +4,12 @@
 	import SketchContainer from '../../components/SketchContainer.svelte';
 	import SketchBlogContent from '../../components/SketchBlogContent.svelte';
 	import SketchHeader from '../../components/SketchHeader.svelte';
+	import { Vec2 } from '../../../math';
 	const { PI } = Math;
 
 	const width = 500,
 		height = 500;
 
-	class Vec2 {
-		constructor(readonly x: number, readonly y: number) {}
-
-		add(vec: Vec2) {
-			return new Vec2(this.x + vec.x, this.y + vec.y);
-		}
-
-		mag(): number {
-			return Math.sqrt(this.x * this.x + this.y * this.y);
-		}
-
-		angle(): number {
-			return Math.atan2(this.y, this.x);
-		}
-
-		rotRad(angle: number): Vec2 {
-			const newAngle = this.angle() + angle;
-			const mag = this.mag();
-			return new Vec2(Math.cos(newAngle) * mag, Math.sin(newAngle) * mag);
-		}
-
-		setRotRad(angle: number): Vec2 {
-			const mag = this.mag();
-			return new Vec2(Math.cos(angle) * mag, Math.sin(angle) * mag);
-		}
-	}
 
 	type BranchConfig = {
 		pos: Vec2;
