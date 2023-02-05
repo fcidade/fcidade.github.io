@@ -40,6 +40,7 @@
 		pos: Vec2;
 		angle: number;
 		randomizedAngle: number;
+		branchesAngle: number
 		length: number;
 		index: number;
 		maxIterations: number;
@@ -52,6 +53,7 @@
 		constructor(
 			private readonly pos: Vec2,
 			private readonly angle: number,
+			branchesAngle: number,
 			private readonly length: number,
 			private readonly index: number,
 			maxIterations: number,
@@ -63,7 +65,8 @@
 					this.children.push(
 						Branch.from({
 							pos: this.top(),
-							angle: angle + PI / 8 + randomizedAngle  * (Math.random() - .5),
+							angle: angle + branchesAngle + randomizedAngle  * (Math.random() - .5),
+							branchesAngle,
 							length: length * 0.9,
 							index: index + 1,
 							maxIterations,
@@ -76,7 +79,8 @@
 					this.children.push(
 						Branch.from({
 							pos: this.top(),
-							angle: angle - PI / 8 + randomizedAngle  * (Math.random() - .5),
+							angle: angle - branchesAngle + randomizedAngle  * (Math.random() - .5),
+							branchesAngle,
 							length: length * 0.9,
 							index: index + 1,
 							maxIterations,
@@ -92,12 +96,13 @@
 			pos,
 			maxIterations,
 			angle,
+			branchesAngle,
 			length,
 			index,
 			branchGenerationChance,
 			randomizedAngle,
 		}: BranchConfig) {
-			return new Branch(pos, angle, length, index, maxIterations, randomizedAngle, branchGenerationChance);
+			return new Branch(pos, angle, branchesAngle, length, index, maxIterations, randomizedAngle, branchGenerationChance);
 		}
 
 		top(): Vec2 {
@@ -125,16 +130,18 @@
 
 	let branch: Branch;
 
-	let initialAngleOption = 0;
+	let trunkAngleOption = 0;
 	let randomizedAngleOption = 0;
 	let maxIterationsOption = 10;
 	let branchGenerationChanceOption = 1;
+	let branchesAngleOption = PI / 8;
 
 	const generate = () => {
 		branch = Branch.from({
 			pos: new Vec2(width / 2, height * 0.8),
-			angle: initialAngleOption,
+			angle: trunkAngleOption,
 			randomizedAngle: randomizedAngleOption,
+			branchesAngle: branchesAngleOption,
 			length: 50,
 			index: 0,
 			maxIterations: maxIterationsOption,
@@ -142,7 +149,7 @@
 		});
 	};
 
-	$: initialAngleOption, randomizedAngleOption, maxIterationsOption, branchGenerationChanceOption, generate();
+	$: branchesAngleOption, trunkAngleOption, randomizedAngleOption, maxIterationsOption, branchGenerationChanceOption, generate();
 
 	export const sketch: Sketch = (p5: p5) => {
 		p5.setup = () => {
@@ -161,12 +168,23 @@
 <SketchContainer>
 	<P5 {sketch} />
 
-	<label for="initial-angle">Ângulo inicial:</label>
+	<label for="initial-angle">Ângulo do tronco:</label>
 	<input
 		type="range"
 		name="initial-angle"
 		id="initial-angle"
-		bind:value={initialAngleOption}
+		bind:value={trunkAngleOption}
+		min={-PI}
+		max={PI}
+		step="0.01"
+	/>
+
+	<label for="branches-angle">Ângulo dos galhos:</label>
+	<input
+		type="range"
+		name="branches-angle"
+		id="branches-angle"
+		bind:value={branchesAngleOption}
 		min={-PI}
 		max={PI}
 		step="0.01"
