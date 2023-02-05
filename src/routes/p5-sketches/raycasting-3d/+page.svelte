@@ -11,8 +11,8 @@
 		}
 	}
 
-	const width = 400,
-		height = 400;
+	const width = 700,
+		height = 700;
 
 	class Boundary {
 		constructor(readonly a: Vec2, readonly b: Vec2) {}
@@ -27,15 +27,20 @@
 	}
 
 	class Caster {
+		angle = 0;
+
 		constructor(private pos: Vec2, private readonly boundaries: Boundary[]) {}
 
+		rotate(addAngle: number) {
+			this.angle += addAngle * 0.005;
+		}
 		moveTo(x: number, y: number) {
 			this.pos = new Vec2(x, y);
 		}
 		move(x: number, y: number) {
 			const speed = 2;
 
-			this.pos = this.pos.add(new Vec2(x * speed, y * speed));
+			this.pos = this.pos.add(vec2(x * speed, y * speed).rotRad(this.angle));
 		}
 
 		check(dir: Vec2, boundary: Boundary): Vec2 | null {
@@ -86,14 +91,28 @@
 		}
 
 		draw(p5: p5) {
-			p5.stroke(255);
-			for (let angle = -PI / 4; angle < PI / 4; angle += PI / 32) {
+			p5.fill(0);
+			p5.noStroke();
+			p5.rect(0, 0, width, height);
+			const coneAngle = PI / 6;
+			for (let angle = this.angle - coneAngle; angle < this.angle + coneAngle; angle += PI / 512) {
 				const hit = this.cast(angle);
 				if (!hit) continue;
 
 				p5.push();
+				p5.translate(width, 0);
+				p5.fill(255);
 
 				// 3D Here
+				const dist = this.pos.dist(hit)
+				const size = (1 / dist) * 5000;
+				const x = p5.map(angle, this.angle - coneAngle, this.angle + coneAngle, 0, width);
+				// p5.line(x, height/2 - size, x, height / 2 + size)
+
+				p5.fill((1 / dist) * 25500)
+
+				p5.rectMode(p5.CENTER);
+				p5.rect(x, height / 2, 5, size);
 
 				p5.pop();
 
@@ -122,7 +141,7 @@
 		new Boundary(vec2(width, 0), vec2(width, height)),
 		new Boundary(vec2(0, height), vec2(width, height))
 	);
-	const caster = new Caster(new Vec2(width/2, height/2), boundaries);
+	const caster = new Caster(new Vec2(width / 2, height / 2), boundaries);
 
 	export const sketch: Sketch = (p5: p5) => {
 		p5.setup = () => {
@@ -131,6 +150,10 @@
 
 		p5.keyPressed = () => {
 			// debugger
+		};
+
+		p5.mouseMoved = (event: MouseEvent) => {
+			caster.rotate(event.movementX);
 		};
 
 		p5.draw = () => {
@@ -147,14 +170,21 @@
 				caster.move(1, 0);
 			}
 
+			if (p5.keyIsDown(81)) {
+				caster.rotate(-1);
+			}
+			if (p5.keyIsDown(69)) {
+				caster.rotate(1);
+			}
+
 			p5.background(0);
-			boundaries.forEach((b) => b.draw(p5));
 			caster.draw(p5);
+			boundaries.forEach((b) => b.draw(p5));
 		};
 	};
 </script>
 
-<SketchHeader title="Raycasting (2D) ⚡" description="Sketch em p5.js" />
+<SketchHeader title="Raycasting (3D) ⚡" description="Sketch em p5.js" />
 
 <SketchContainer>
 	<P5 {sketch} />
