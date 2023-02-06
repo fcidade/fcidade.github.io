@@ -1,0 +1,43 @@
+- Tools:
+    - Pomodoro
+    - Conversors
+        - base64
+        - md5
+        - 
+    - Alarmes
+    - Timers
+
+- Music
+    - Metronome
+    - Exercises
+        - Notes
+        - Scales
+        - Scoresheets
+    - Online instruments
+    - Generative music
+
+- Games:
+    - Snake
+    - Isaac
+    - Agar.io
+    - Zombie top down
+    - Rubix Cube
+    - Pong
+    - Breakout
+
+- Math/Physics
+    - Vector
+    - Acceleration
+    - Pendulum
+    - Springs
+    - Forces
+    - Exercises
+        - Sum
+        - Sub
+        - Mult
+        - Div
+        - Pot
+        - Sqrt
+
+- Sketches
+    - 

@@ -1,11 +1,19 @@
 export class Vec2 {
-  constructor(readonly x: number, readonly y: number) {}
+  constructor(public x: number, public y: number) {}
 
-  add(vec: Vec2):Vec2 {
+  clone(): Vec2 {
+    return vec2(this.x, this.y)
+  }
+
+  equal(vec: Vec2): boolean {
+    return this.x == vec.x && this.y == vec.y;
+  }
+
+  add(vec: Vec2): Vec2 {
     return vec2(this.x + vec.x, this.y + vec.y);
   }
 
-  sub(vec: Vec2):Vec2 {
+  sub(vec: Vec2): Vec2 {
     return vec2(this.x - vec.x, this.y - vec.y);
   }
 
@@ -13,8 +21,8 @@ export class Vec2 {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
-  dist(other: Vec2):number {
-    return this.sub(other).mag()
+  dist(other: Vec2): number {
+    return this.sub(other).mag();
   }
 
   angle(): number {
@@ -30,6 +38,14 @@ export class Vec2 {
   setRotRad(angle: number): Vec2 {
     const mag = this.mag();
     return new Vec2(Math.cos(angle) * mag, Math.sin(angle) * mag);
+  }
+
+  static zero() {
+    return new Vec2(0, 0);
+  }
+
+  static right() {
+    return new Vec2(1, 0);
   }
 }
 
