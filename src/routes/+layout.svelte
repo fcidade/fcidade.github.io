@@ -1,7 +1,9 @@
-<div class="body pb-5	">
+<div class="body pb-5">
 	<header class="container pt-5 mb-2 col-md-6">
-		<h1 class="display-5">Francisco Cidade 🎵</h1>
-		<span class="lead">Biblioteca de hobbies</span>
+		<a href="/" class="text-reset text-decoration-none">
+			<h1 class="display-5">Francisco Cidade 🎵</h1>
+			<span class="lead">Biblioteca de hobbies</span>
+		</a>
 	</header>
 	<slot />
 </div>

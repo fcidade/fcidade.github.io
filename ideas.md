@@ -1,3 +1,6 @@
+Paletas:
+https://lospec.com/palette-list/mulfok32
+
 - Tools:
     - Pomodoro
     - Conversors
