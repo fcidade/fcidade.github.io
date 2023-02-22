@@ -3,7 +3,7 @@
 	import P5 from 'p5-svelte/P5.svelte';
 	import SketchContainer from '../../components/SketchContainer.svelte';
 	import SketchBlogContent from '../../components/SketchBlogContent.svelte';
-	import SketchHeader from '../../components/SketchHeader.svelte';
+	import SketchHeader from '../../components/SimpleBlogHeader.svelte';
 	import { Vec2 } from '../../../math';
 	const { PI } = Math;
 
