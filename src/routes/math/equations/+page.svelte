@@ -11,8 +11,8 @@
 
 	function generate() {
 		msg = '';
-		valueA = Math.floor(Math.random() * 10);
-		valueB = Math.floor(Math.random() * 10);
+		valueA = Math.floor(Math.random() * 10) + 15;
+		valueB = Math.floor(Math.random() * 10) + 5;
 	}
 
 	function confirm() {
