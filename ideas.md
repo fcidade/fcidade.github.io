@@ -1,6 +1,11 @@
 Paletas:
 https://lospec.com/palette-list/mulfok32
 
+- Coding
+    - Learn coding
+        - Math operatinos
+        - Logs
+
 - Tools:
     - Pomodoro
     - Conversors
@@ -9,6 +14,7 @@ https://lospec.com/palette-list/mulfok32
         - 
     - Alarmes
     - Timers
+    - Chess Timer
 
 - Music
     - Metronome
@@ -20,6 +26,7 @@ https://lospec.com/palette-list/mulfok32
     - Generative music
 
 - Games:
+    - Tower defense
     - Snake
     - Isaac
     - Agar.io
@@ -27,6 +34,7 @@ https://lospec.com/palette-list/mulfok32
     - Rubix Cube
     - Pong
     - Breakout
+    - That fish game that you eat more fish and get bigger
 
 - Math/Physics
     - Vector

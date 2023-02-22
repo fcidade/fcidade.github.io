@@ -11,65 +11,28 @@
 	const grid = 16;
 	const gridSize = width / grid;
 
-	class Tail {
-		private tail: Tail | null = null;
-
-		constructor(private pos: Vec2) {}
-
-		addTail() {
-			
-			if (!this.tail) {
-				this.tail = new Tail(this.pos);
-				console.log(this.tail);
-			} else {
-				this.tail.addTail();
-			}
-		}
-
-		update(newPos: Vec2) {
-			if (this.tail) {
-				this.tail.pos = this.pos.clone();
-			}
-			this.pos = newPos;
-		}
-
-		draw(p5: p5) {
-			p5.fill(50, 50, 200, 100);
-			p5.rect(this.pos.x * gridSize, this.pos.y * gridSize, gridSize, gridSize);
-		}
-	}
-
 	class Snake {
-		private dir: Vec2 = Vec2.right();
-		private tail: Tail | null = null;
+		dir = vec2(1, 0);
+		tail: Snake | null = null;
 
-		constructor(private pos: Vec2) {}
+		constructor(public pos: Vec2) {}
 
 		setDir(x: number, y: number) {
-			if ((this.dir.x !== 0 && x !== 0) || (this.dir.y !== 0 && y !== 0)) {
-				return;
-			}
+			if (x !== 0 && this.dir.x !== 0) return;
+			if (y !== 0 && this.dir.y !== 0) return;
 			this.dir = vec2(x, y);
 		}
 
-		checkCollision(apple: Apple) {
-			if (this.pos.equal(apple.pos)) {
-				apple.eat();
-				this.grow();
-			}
-		}
-
-		grow() {
+		growTail() {
 			if (!this.tail) {
-				this.tail = new Tail(this.pos);
+				this.tail = new Snake(vec2(this.pos.x, this.pos.y).sub(this.dir));
+				this.tail.dir = this.dir;
 			} else {
-				this.tail.addTail();
+				this.tail.growTail();
 			}
 		}
 
-		draw(p5: p5) {
-			const lastPos = this.pos.clone();
-
+		update() {
 			this.pos = this.pos.add(this.dir);
 			if (this.pos.x < 0) {
 				this.pos.x = grid - 1;
@@ -83,38 +46,65 @@
 			if (this.pos.y >= grid) {
 				this.pos.y = 0;
 			}
-			this.tail?.update(lastPos);
 
-			p5.fill(50, 240, 50, 100);
+			if (this.tail) {
+				this.tail.update();
+				this.tail.dir = this.dir;
+			}
+		}
+
+		draw(p5: p5) {
+			p5.fill('green');
 			p5.rect(this.pos.x * gridSize, this.pos.y * gridSize, gridSize, gridSize);
 
-			this.tail?.draw(p5);
+			if (this.tail) {
+				this.tail.draw(p5);
+			}
 		}
 	}
 
 	class Apple {
 		constructor(public pos: Vec2) {}
 
-		eat() {
-			this.pos = Apple.randomGridPos();
+		randomizePosition() {
+			this.pos = Apple.randomPos();
+		}
+
+		static randomPos() {
+			return vec2(Math.floor(Math.random() * grid), Math.floor(Math.random() * grid));
+		}
+
+		static random() {
+			return new Apple(Apple.randomPos());
 		}
 
 		draw(p5: p5) {
 			p5.fill('red');
 			p5.rect(this.pos.x * gridSize, this.pos.y * gridSize, gridSize, gridSize);
 		}
-
-		static randomGridPos(): Vec2 {
-			return vec2(Math.floor(grid * Math.random()), Math.floor(grid * Math.random()));
-		}
-
-		static random(): Apple {
-			return new Apple(Apple.randomGridPos());
-		}
 	}
 
 	const snake = new Snake(vec2(Math.floor(grid / 2), Math.floor(grid / 2)));
-	let apple = Apple.random();
+	const apple = Apple.random();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+	snake.growTail();
+
+	setInterval(() => {
+		snake.update();
+	}, 250);
 
 	export const sketch: Sketch = (p5: p5) => {
 		p5.setup = () => {
@@ -139,21 +129,26 @@
 		};
 
 		p5.draw = () => {
+			if (snake.pos.equal(apple.pos)) {
+				snake.growTail();
+				apple.randomizePosition();
+			}
+
 			p5.background(230);
 			p5.noStroke();
 			for (let x = 0; x < grid; x++) {
 				for (let y = 0; y < grid; y++) {
-						p5.fill(250);
+					p5.fill(250);
 					p5.stroke(200);
 					if ((x + y) % 2 === 0) {
-						// p5.fill(200);
+						p5.fill(200);
 					} else {
-						// p5.fill(230);
+						p5.fill(230);
 					}
 					p5.rect(x * gridSize, y * gridSize, gridSize, gridSize);
 				}
 			}
-			snake.checkCollision(apple);
+
 			apple.draw(p5);
 			snake.draw(p5);
 		};

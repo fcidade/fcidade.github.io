@@ -2,7 +2,7 @@ export class Vec2 {
   constructor(public x: number, public y: number) {}
 
   clone(): Vec2 {
-    return vec2(this.x, this.y)
+    return vec2(this.x, this.y);
   }
 
   equal(vec: Vec2): boolean {
@@ -11,6 +11,10 @@ export class Vec2 {
 
   add(vec: Vec2): Vec2 {
     return vec2(this.x + vec.x, this.y + vec.y);
+  }
+
+  mult(value: number): Vec2 {
+    return vec2(this.x * value, this.y * value);
   }
 
   sub(vec: Vec2): Vec2 {
