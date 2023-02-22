@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import SimpleBlogContent from '../../components/SimpleBlogContent.svelte';
 	import SimpleBlogHeader from '../../components/SimpleBlogHeader.svelte';
 
@@ -15,16 +16,17 @@
 	}
 
 	function confirm() {
-		console.log(option);
-		
-		msg = (option === valueA && valueB) ? "Acertou!" : "Errou!"
+		msg = (option === (valueA && valueB)) ? "Acertou!" : "Errou!"
 	}
 
 	function displayBoolean(value: boolean): string {
 		return value ? 'Verdadeiro' : 'Falso';
 	}
 
-	generate();
+	onMount(() => {
+		generate();
+	})
+
 </script>
 
 <SimpleBlogHeader title="Operações Lógicas 🦾" description="Verdadeiro ou falso?" />
