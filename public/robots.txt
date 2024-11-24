@@ -1,0 +1,23 @@
+User-agent: *
+
+Disallow: /
+
+Disallow: /categories/
+
+Disallow: /tags/hello/
+
+Disallow: /categories/hello/
+
+Disallow: /posts/markdown-cheat-sheet/
+
+Disallow: /posts/
+
+Disallow: /tags/
+
+Disallow: /tags/whatsapp/
+
+Disallow: /categories/css/
+
+Disallow: /categories/javascript/
+
+Disallow: /categories/uncategories/
