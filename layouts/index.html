@@ -1,0 +1,18 @@
+{{ define "main" }}
+
+<div class="py-2 flex flex-col gap-1">
+  <h3 class="title-small">{{ .Title }}</h3>
+</div>
+
+<section>{{ .Content }} </section>
+
+
+
+<h4>Ultimos posts:</h4>
+<section class="flex flex-col gap-10">
+  {{ range .Site.RegularPages.ByDate.Reverse }}
+    {{ partial "list/default" . }}
+  {{ end }}
+</section>
+
+{{ end }}
