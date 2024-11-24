@@ -6,9 +6,7 @@
 
 <section>{{ .Content }} </section>
 
-
-
-<h4>Ultimos posts:</h4>
+<hr/>
 <section class="flex flex-col gap-10">
   {{ range .Site.RegularPages.ByDate.Reverse }}
     {{ partial "list/default" . }}
