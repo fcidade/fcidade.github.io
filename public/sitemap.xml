@@ -2,34 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://fcidade.com/</loc>
     <lastmod>2022-08-27T09:16:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://fcidade.com/categories/</loc>
     <lastmod>2022-08-27T09:16:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/hello/</loc>
+    <loc>https://fcidade.com/tags/hello/</loc>
     <lastmod>2022-08-27T09:16:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/hello/</loc>
+    <loc>https://fcidade.com/categories/hello/</loc>
     <lastmod>2022-08-27T09:16:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/markdown-cheat-sheet/</loc>
+    <loc>https://fcidade.com/posts/markdown-cheat-sheet/</loc>
     <lastmod>2022-08-27T09:16:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://fcidade.com/posts/</loc>
     <lastmod>2022-08-27T09:16:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://fcidade.com/tags/</loc>
     <lastmod>2022-08-27T09:16:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/whatsapp/</loc>
+    <loc>https://fcidade.com/tags/whatsapp/</loc>
     <lastmod>2022-08-27T09:16:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/css/</loc>
+    <loc>https://fcidade.com/categories/css/</loc>
   </url><url>
-    <loc>http://localhost:1313/categories/javascript/</loc>
+    <loc>https://fcidade.com/categories/javascript/</loc>
   </url><url>
-    <loc>http://localhost:1313/categories/uncategories/</loc>
+    <loc>https://fcidade.com/categories/uncategories/</loc>
   </url>
 </urlset>
