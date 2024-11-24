@@ -1,9 +1,9 @@
-baseURL = 'http://example.org/'
-copyright = "{year}" # To make 2007 - 2022. Just add before {year} example: 2007 - {year}
-languageCode = 'en-US'
-defaultContentLanguage = 'en'
+baseURL = 'https://fcidade.com'
+copyright = "2024 - {year}" # To make 2007 - 2022. Just add before {year} example: 2007 - {year}
+languageCode = 'pr-BR'
+defaultContentLanguage = 'pt'
 theme = 'enchanted-lowkey'
-title = 'Enhanced Lowkey Hugo'
+title = 'Francisco Cidade'
 enableRobotsTXT = true
 summaryLength = 15
 paginate = 5

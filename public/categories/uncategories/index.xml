@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Uncategories on Enhanced Lowkey Hugo</title>
+    <title>Uncategories on Francisco Cidade</title>
     <link>http://localhost:1313/categories/uncategories/</link>
-    <description>Recent content in Uncategories on Enhanced Lowkey Hugo</description>
+    <description>Recent content in Uncategories on Francisco Cidade</description>
     <generator>Hugo</generator>
-    <language>en-US</language>
-    <copyright>{year}</copyright>
+    <language>pr-BR</language>
+    <copyright>2024 - {year}</copyright>
     <atom:link href="http://localhost:1313/categories/uncategories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
