@@ -8,7 +8,9 @@ enableRobotsTXT = true
 summaryLength = 15
 paginate = 5
 
-
+[markup.goldmark.renderer]
+  unsafe = true # Allow HTML in md files
+  
 [markup]
   [markup.highlight]
     anchorLineNos = false
