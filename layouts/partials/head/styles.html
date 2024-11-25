@@ -1,0 +1,32 @@
+{{/* Resources */}} 
+{{- $tailwind := resources.Get "css/tailwind.css" | postCSS (dict "config" "./config/postcss.config.js") -}}
+
+{{/* MathJax */}}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+{{/* Processor */}} 
+{{- $styles := slice $tailwind | resources.Concat "css/app.css" -}} 
+
+
+{{/* Output */}} 
+{{- if eq hugo.Environment "development" -}}
+    <link rel="stylesheet" href="{{ $styles.Permalink | absURL }}" />
+{{- else -}} 
+    {{- $styles := $styles | minify | fingerprint | resources.PostProcess -}}
+    <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}" />
+{{- end -}}
+
+<style>
+    @media (min-width:320px)  { 
+        /* smartphones, iPhone, portrait 480x320 phones */ 
+        body {
+            padding: 16px;
+        }
+    }
+    @media (min-width:481px)  { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+    @media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
+    @media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+    @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
+    @media (min-width:1281px) { /* hi-res laptops and desktops */ }
+</style>
