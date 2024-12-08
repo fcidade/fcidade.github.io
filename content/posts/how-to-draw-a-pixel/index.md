@@ -3,9 +3,14 @@ title: "Como desenhar um pixel?"
 date: 2024-11-24T13:44:54-03:00
 draft: false # Set 'false' to publish
 tableOfContents: true # Enable/disable Table of Contents
-description: 'Explicando como um pixel é desenhado no canvas em Javascript'
+description: 'Você já parou para pensar em como a informação de um pixel é armazenada e exibida na tela?
+A curiosidade por trás disso sempre esteve na minha mente, e a verdade é que existem várias maneiras de realizar
+esse processo,
+cada uma com suas especificidades.'
 categories:
-- Graphics Programming
+  - Math
+  - Game Dev
+  - Graphics Programming
 tags:
 - Graphics Programming
 - Javascript
@@ -147,7 +152,7 @@ Com isso, você já deve ser capaz de ver dois pixels desenhados no seu canvas:
 <div style="display: flex; justify-content: center; padding-bottom: 16px ">
     <img src="image-3.png" width=150 />
 </div>
-Caso seu canvas esteja um pouco diferente do meu, borrado e sem as bordas, é pq eu adicionei um estilo css para facilitar a visualização das bordas e remover o filtro de anti-serrilhado:
+Caso seu canvas esteja um pouco diferente do meu, borrado e sem as bordas, é por que eu adicionei um estilo css para facilitar a visualização das bordas e remover o filtro de anti-serrilhado:
 
 ```css
 canvas {
@@ -232,6 +237,51 @@ Tente randomizar as cores que aparecem no seu canvas!
     }
 </style>
 
+<script>
+    const canvas = document.getElementById('canvas');
+    const resetBtn = document.getElementById('resetBtn');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 32
+    canvas.height = 32
+
+    const putPixel = (imgData, x, y, r, g, b, a) => {
+        const index = (x + y * imgData.width) * 4;
+        imgData.data[index + 0] = r;
+        imgData.data[index + 1] = g;
+        imgData.data[index + 2] = b;
+        imgData.data[index + 3] = a;
+    }
+    
+    function getMouesPosition(e) {
+        const mouseX = e.offsetX * canvas.width / canvas.clientWidth | 0;
+        const mouseY = e.offsetY * canvas.height / canvas.clientHeight | 0;
+        return {x: mouseX, y: mouseY};
+    }
+
+    const clear = (imgData) => {
+        for (let x = 0; x < canvas.width; x++) {
+            for (let y = 0; y < canvas.height; y++) {
+                putPixel(imgData, x, y, 0xFF, 0xFF, 0xFF, 0xFF);
+            }
+        }
+    }
+
+    canvas.addEventListener("mousemove", (e) => {
+        const {x, y} = getMouesPosition(e);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        putPixel(imgData, x, y, Math.random() * 255, Math.random() * 255, Math.random() * 255, 255)
+        ctx.putImageData(imgData, 0, 0);
+    })
+
+    resetBtn.addEventListener("click", (e) => {
+        const {x, y} = getMouesPosition(e);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        clear(imgData)
+        ctx.putImageData(imgData, 0, 0);
+    })
+
+</script>
+
 {{< alert info "Exercício 3 - Canvas interativo! " >}}
 Tente criar uma interação com seu canvas!
 {{< /alert >}}
@@ -294,49 +344,3 @@ resetBtn.addEventListener("click", (e) => {
 })
 
 ```
-
-
-<script>
-    const canvas = document.getElementById('canvas');
-    const resetBtn = document.getElementById('resetBtn');
-    const ctx = canvas.getContext('2d');
-    canvas.width = 32
-    canvas.height = 32
-
-    const putPixel = (imgData, x, y, r, g, b, a) => {
-        const index = (x + y * imgData.width) * 4;
-        imgData.data[index + 0] = r;
-        imgData.data[index + 1] = g;
-        imgData.data[index + 2] = b;
-        imgData.data[index + 3] = a;
-    }
-    
-    function getMouesPosition(e) {
-        const mouseX = e.offsetX * canvas.width / canvas.clientWidth | 0;
-        const mouseY = e.offsetY * canvas.height / canvas.clientHeight | 0;
-        return {x: mouseX, y: mouseY};
-    }
-
-    const clear = (imgData) => {
-        for (let x = 0; x < canvas.width; x++) {
-            for (let y = 0; y < canvas.height; y++) {
-                putPixel(imgData, x, y, 0xFF, 0xFF, 0xFF, 0xFF);
-            }
-        }
-    }
-
-    canvas.addEventListener("mousemove", (e) => {
-        const {x, y} = getMouesPosition(e);
-        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        putPixel(imgData, x, y, Math.random() * 255, Math.random() * 255, Math.random() * 255, 255)
-        ctx.putImageData(imgData, 0, 0);
-    })
-
-    resetBtn.addEventListener("click", (e) => {
-        const {x, y} = getMouesPosition(e);
-        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        clear(imgData)
-        ctx.putImageData(imgData, 0, 0);
-    })
-
-</script>
