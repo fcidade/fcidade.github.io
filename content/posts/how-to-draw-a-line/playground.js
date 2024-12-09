@@ -17,7 +17,7 @@ const createCanvas = (canvasID) => {
         color(r, g, b, a) {
             color = { r, g, b, a }
         },
-        drawPoint(x, y) {
+        drawPixel(x, y) {
             const startIndex = (Math.floor(x) + Math.floor(y) * canvas.width) * 4
             buffer.data[startIndex] = color.r
             buffer.data[startIndex + 1] = color.g
@@ -37,7 +37,7 @@ c.color(0x00, 0x00, 0x00, 0x33)
 for (let i = 0; i < c.w(); i++) {
     for (let j = 0; j < c.w(); j++) {
         if ((i + j) % 2 !== 0) {
-            c.drawPoint(i, j)
+            c.drawPixel(i, j)
         }
     }
 }
@@ -45,26 +45,21 @@ for (let i = 0; i < c.w(); i++) {
 c.color(0x00, 0x00, 0x00, 0xFF)
 
 const drawLine = (x0, y0, x1, y1) => {
-    // P0
-    c.color(0xff, 0x00, 0x00, 0xaa)
-    c.drawPoint(x0, y0)
+    // p0
+    c.color(0xFF, 0x00, 0x00, 0xFF)
+    c.drawPixel(x0, y0)
 
-    // In Between
-    c.color(0x00, 0x00, 0xff, 0xaa)
-    let y = y0
-    let slope = (y1 - y0) / (x1 - x0) 
-    console.log(slope)
+    // p1..n-1
+    c.color(0x00, 0x00, 0x00, 0xFF)
     for (let x = x0; x <= x1; x++) {
-        y += Math.floor(slope + 0.5)
-        c.drawPoint(x, y)
+        c.drawPixel(x, y0)
     }
 
-    // P1
-    c.color(0x00, 0xff, 0x00, 0xaa)
-    c.drawPoint(x1, y1)
+    // pN
+    c.color(0x00, 0x00, 0xFF, 0xFF)
+    c.drawPixel(x1, y1)
 }
 
-drawLine(2, 2, 8, 8)
-drawLine(8, 2, 13, 8)
+drawLine(2, 3, 5, 9)
 
 c.refresh()

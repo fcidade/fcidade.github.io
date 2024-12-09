@@ -1,3 +1,6 @@
 {
     "explorer.excludeGitIgnore": true,
+    "markdown.copyFiles.destination": {
+        "**": "img/image.png"
+    }
 }
