@@ -31,7 +31,9 @@ https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
 
 <!-- Post -->
 
-![alt text](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHVpZmJzanUyMmR5dm9ncGxydDN6dmxram5jOWpzd3Nubmd4amhzdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NKEt9elQ5cR68/giphy.webp)
+<div style="width: 100%;">
+    <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHVpZmJzanUyMmR5dm9ncGxydDN6dmxram5jOWpzd3Nubmd4amhzdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NKEt9elQ5cR68/giphy.webp" alt="alt text" style="width: 100%; max-width: 100%;">
+</div>
 
 ## Introdução
 
@@ -67,14 +69,15 @@ Basicamente o que essa função faz:
 4. Para cada iteração, desenha na tela a cordenada `x` e `y`.
 
 O resultado fica assim:
-![alt text](img/image.png)
+![alt text](img/image-5.png)
 
+### Desenhando uma linha vertical
 Até aí tudo certo, podemos fazer a mesma coisa (mas dessa vez com o eixo `y`) para criar uma linha vertical:
 ```js
 const drawVerticalLine = (x, y0, y1) => {
     const yMin = Math.min(y0, y1)
-    const yMay = Math.max(y0, y1)
-    for (let y = yMin; y <= yMay; y++) {
+    const yMax = Math.max(y0, y1)
+    for (let y = yMin; y <= yMax; y++) {
         c.drawPixel(x, y)
     }
 }
@@ -82,7 +85,10 @@ const drawVerticalLine = (x, y0, y1) => {
 O resultado fica assim:
 ![alt text](img/image.png)
 
-Simples, né? Porém assim ficamos bem limitados... agora podemos desenhar linhas horizontais e verticais, mas e linhas anguladas? E se eu quiser denhar uma linha que começa em `(2, 3)` e termina em `(5, 9)`? Foi aí que meus experimentos começaram a dar errado 👿.
+Simples, né? Porém assim ficamos bem limitados... agora podemos desenhar linhas horizontais e verticais, mas e linhas anguladas? E se eu quiser denhar uma linha que começa em `(2, 3)` e termina em `(5, 9)`? Foi aí que meus experimentos começaram a dar errado e precisei recorrer aos universitários 👿.
+<!-- TODO: Colocar link dos videos e explicar -->
+
+### Desenhando uma linha
 
 Eu comecei desenhando os dois pontos iniciais no canvas com cores diferentes, para ficar fácil de visualizar:
 ![alt text](img/image-1.png)
@@ -118,9 +124,19 @@ const drawLine = (x0, y0, x1, y1) => {
 }
 ```
 
-<!-- E agora? Precisamos saber quantos pixels o eixo y deve se mover, e uma forma de fazer isso seria calculando a diferença entre x e y,   -->
+E agora? Precisamos saber quantos pixels o eixo y deve se mover, e uma forma de fazer isso seria calculando a diferença entre x e y. 
+Para isso, podemos usar a fórmula da inclinação (slope) de uma linha, que é dada por:
 
-<!-- TODO: Colocar imagens de trigonometria explicando -->
+m = (y1 - y0) / (x1 - x0)
+<!-- TODO: Latex -->
+
+Onde (x0, y0) e (x1, y1) são os pontos inicial e final da linha, respectivamente. A inclinação nos diz o quanto y deve mudar para cada mudança em x.
+
+<!-- TODO -->
+<!-- Aqui está uma imagem que ilustra a inclinação de uma linha:
+![Slope Explanation](img/slope-explanation.png) -->
+
+Com base na inclinação, podemos determinar quando incrementar y enquanto desenhamos a linha no canvas.
 
 ## Bresenham's Line Algorithm 
 O primeiro algorítmo que vamos nos aprofundar será o [Bresenham's Line Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm), que foi desenvolvido em 1962 por [Jack Elton Bresenham](https://en.wikipedia.org/wiki/Jack_Elton_Bresenham) na IBM, e é utilizado para determinar os pontos que devem ser desenhados em uma linha, em uma array multidimensional.
@@ -162,6 +178,10 @@ Tentar achar uma forma de melhorar o algoritmo
         border: 1px solid black;
         width: 30%;
         image-rendering: pixelated;
+    }
+
+    img {
+        max-width: 200px;
     }
 </style>
 
