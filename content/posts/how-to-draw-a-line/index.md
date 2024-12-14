@@ -138,6 +138,52 @@ Onde (x0, y0) e (x1, y1) são os pontos inicial e final da linha, respectivament
 
 Com base na inclinação, podemos determinar quando incrementar y enquanto desenhamos a linha no canvas.
 
+Agora que já temos o `slope`, podemos calcular x e y:
+![alt text](img/image-10.png)
+```js
+const drawLineFloat = (x0, y0, x1, y1) => {
+    // p0
+    c.color(0xFF, 0x00, 0x00, 0xFF)
+    c.drawPixel(x0, y0)
+
+    // pN
+    c.color(0x00, 0x00, 0xFF, 0x33)
+    c.drawPixel(x1, y1)
+
+    // p0 ... p1
+    const dx = x1 - x0
+    const dy = y1 - y0
+    if (dx == 0) {
+        return
+    }
+    const m = (dy / dx)
+
+    c.color(0x00, 0x00, 0x00, 0xFF)
+    for (let i = 0; i <= dx; i++) {
+        const x = x0 + i
+        const y = Math.floor(y0 + (x * m))
+        c.drawPixel(x, y)
+    }
+}
+```
+
+Uma coisa interessante que notei enquanto testava, é que o vídeo que usei de referencia programava em python, enquanto eu estou usando Javascript.
+
+Com isso, o resultado dele ficava diferente do meu, assim:
+![alt text](img/image-9.png)
+E isso aconteceu pq python tem por padrão uma precisão de apenas 6 casas decimais. Caso queira reproduzir esse efeito, basta limitar o número de casas decimais para 6 no `slope`:
+```js
+const m = (dy / dx).toFixed(6)
+```
+
+### Desenhando em todos os octantes
+
+Antes de prosseguir, é importante entender que o plano cartesiano é dividido em 8 octantes. Cada octante representa uma região do plano, e o algoritmo de Bresenham que implementamos até agora só sabe lidar com um octante.
+
+<!-- TODOÇ Adicionar ilustracao dos octantes -->
+
+Para desenhar linhas em todos os octantes, precisamos adaptar o algoritmo para lidar com as diferentes inclinações e direções das linhas. Isso envolve ajustar a forma como incrementamos os valores de x e y, dependendo do octante em que a linha se encontra.
+
 ## Bresenham's Line Algorithm 
 O primeiro algorítmo que vamos nos aprofundar será o [Bresenham's Line Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm), que foi desenvolvido em 1962 por [Jack Elton Bresenham](https://en.wikipedia.org/wiki/Jack_Elton_Bresenham) na IBM, e é utilizado para determinar os pontos que devem ser desenhados em uma linha, em uma array multidimensional.
 Um diferencial é que o mesmo foi desenvolvido utilizando apenas números inteiros, já que na época era exigido um alto custo de processamento para lidar com números decimais.
@@ -185,4 +231,4 @@ Tentar achar uma forma de melhorar o algoritmo
     }
 </style>
 
-<script src='./playground.js'></script> 
+<script src='./playground.js'></script>

@@ -56,21 +56,17 @@ const drawLineFloat = (x0, y0, x1, y1) => {
     // p0 ... p1
     const dx = x1 - x0
     const dy = y1 - y0
-    // if dx == 0 return ?
-    const m = (dy / dx).toFixed(6) // TODO: Python, used in the video example, have a precision of 6, so i ill set it here for now because i dont want to be different from the video
+    if (dx == 0) {
+        return
+    }
+    const m = (dy / dx)
 
-    console.log({dx, dy, m});
-    
-    const coords = []
     c.color(0x00, 0x00, 0x00, 0xFF)
     for (let i = 0; i <= dx; i++) {
         const x = x0 + i
         const y = Math.floor(y0 + (x * m))
-        coords.push({i, x, y: y0 + (x * m)})
         c.drawPixel(x, y)
     }
-    console.table(coords)
-
 }
 
 const drawLineInt = (x0, y0, x1, y1) => {
