@@ -161,7 +161,7 @@ const drawLineFloat = (x0, y0, x1, y1) => {
     c.color(0x00, 0x00, 0x00, 0xFF)
     for (let i = 0; i <= dx; i++) {
         const x = x0 + i
-        const y = Math.floor(y0 + (x * m))
+        const y = Math.round(y0 + (i * m))
         c.drawPixel(x, y)
     }
 }
@@ -183,6 +183,26 @@ Antes de prosseguir, é importante entender que o plano cartesiano é dividido e
 <!-- TODOÇ Adicionar ilustracao dos octantes -->
 
 Para desenhar linhas em todos os octantes, precisamos adaptar o algoritmo para lidar com as diferentes inclinações e direções das linhas. Isso envolve ajustar a forma como incrementamos os valores de x e y, dependendo do octante em que a linha se encontra.
+
+Para isso, é necessario calcularmos o slope não apenas no eixo y, mas tambem no eixo x:
+
+![alt text](img/image-11.png)
+```javascript
+const drawLineFloat = (x0, y0, x1, y1) => {
+    const dx = x1 - x0
+    const dy = y1 - y0
+    const step = Math.max(Math.abs(dx), Math.abs(dy))
+    const stepX = dx / step
+    const stepY = dy / step
+
+    for (let i = 0; i <= step; i++) {
+        const x =  Math.round(y0 + (i * stepX))
+        const y = Math.round(y0 + (i * stepY))
+        c.drawPixel(x, y)
+    }
+}
+```
+<!-- TODO: Revisar e melhorar, explicar mais e por mais ilustracoes -->
 
 ## Bresenham's Line Algorithm 
 O primeiro algorítmo que vamos nos aprofundar será o [Bresenham's Line Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm), que foi desenvolvido em 1962 por [Jack Elton Bresenham](https://en.wikipedia.org/wiki/Jack_Elton_Bresenham) na IBM, e é utilizado para determinar os pontos que devem ser desenhados em uma linha, em uma array multidimensional.
