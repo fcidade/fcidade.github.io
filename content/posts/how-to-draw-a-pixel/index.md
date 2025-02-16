@@ -215,15 +215,15 @@ A solução dos exercícios está logo a baixo, mas tente fazer antes!
 <div style="display: flex; justify-content: center; padding-bottom: 16px ">
     <img src="image-5.png" width=150 />
 </div>
-{{< alert info "Exercício 1 - Tabuleiro de Xadrez" >}}
+#### Exercício 1 - Tabuleiro de Xadrez
 Tente utilizar a função que criamos para desenhar um tabuleiro de xadrez! (sem as peças)
-{{< /alert >}}
+
 <div style="display: flex; justify-content: center; padding-bottom: 16px ">
     <img src="image-6.png" width=150 />
 </div>
-{{< alert info "Exercício 2 - Cores aleatórias"  >}}
+#### Exercício 2 - Cores aleatórias
 Tente randomizar as cores que aparecem no seu canvas!
-{{< /alert >}}
+
 <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; padding-bottom: 16px ">
     <canvas id="canvas"></canvas>
     <button id="resetBtn">Reiniciar</button>
@@ -282,9 +282,9 @@ Tente randomizar as cores que aparecem no seu canvas!
 
 </script>
 
-{{< alert info "Exercício 3 - Canvas interativo! " >}}
+#### Exercício 3 - Canvas interativo! 
 Tente criar uma interação com seu canvas!
-{{< /alert >}}
+
 
 ---
 
