@@ -1,4 +1,4 @@
 ---
-title: "Post"
+title: "Posts"
 header: "Posts mais recentes" # Optional
 ---

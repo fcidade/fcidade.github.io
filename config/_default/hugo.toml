@@ -1,12 +1,11 @@
 baseURL = 'https://fcidade.com'
-copyright = "2024 - {year}" # To make 2007 - 2022. Just add before {year} example: 2007 - {year}
+copyright = "2024 - {year}"
 languageCode = 'pt-BR'
 defaultContentLanguage = 'pt'
 theme = 'enchanted-lowkey'
 title = 'Francisco Cidade'
 enableRobotsTXT = true
 summaryLength = 15
-# paginate = 5
 
 [markup.goldmark.renderer]
   unsafe = true # Allow HTML in md files
