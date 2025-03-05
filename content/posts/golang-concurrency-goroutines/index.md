@@ -1,9 +1,9 @@
 ---
-title: "Golang - Concorrência e Paralelismo"
+title: "Concorrência e Paralelismo com Golang - Goroutines"
 date: 2025-03-05T10:05:00-03:00
-draft: true # Set 'false' to publish
+draft: false # Set 'false' to publish
 tableOfContents: true # Enable/disable Table of Contents
-description: "TODO"
+description: "Este artigo explora a concorrência e paralelismo em Go, com foco em goroutines. Aprenda o que são goroutines, como iniciá-las, e veja exemplos práticos e exercícios para reforçar o aprendizado."
 categories:
   - Programming
   - Languages
@@ -14,15 +14,30 @@ tags:
   - Go
 ---
 
-## Goroutines
+## Goroutines 🚀
+![Gopher](img/image.png)
 
-### O que são Goroutines?
+### O que são Goroutines? 🤔
 Goroutines são funções ou métodos que podem ser executados em paralelo. 
 Elas são extremamente leves e são gerenciadas pelo runtime do Go, o que significa que você pode iniciar milhares de goroutines com uma sobrecarga mínima. Isso é possível porque o runtime do Go gerencia a execução das goroutines de maneira eficiente, distribuindo-as entre múltiplos threads do sistema operacional conforme necessário.
 
 A principal vantagem das goroutines é que elas facilitam a criação de programas altamente concorrentes e eficientes. Em vez de criar e gerenciar threads manualmente, você pode simplesmente usar goroutines para executar tarefas em paralelo. Isso torna o código mais simples e fácil de manter, além de melhorar o desempenho do programa em sistemas com múltiplos núcleos de processamento.
 
-### Como iniciar uma goroutine?
+### Qual a diferença entre concorrência e paralelismo?
+![concorrência vs. paralelismo](img/image-1.png)
+#### Concorrência:  
+ – Refere-se à capacidade de fazer progresso em várias tarefas (ou atividades) na mesma linha do tempo.  
+ – Em um programa concorrente, várias tarefas podem ser iniciadas e executadas, podendo alternar entre si, sem que necessariamente sejam executadas no mesmo instante.  
+ – A concorrência é sobre lidar com múltiplas coisas ao mesmo tempo, estruturando o programa para que ele possa dar andamento a várias tarefas enquanto espera por recursos, I/O, etc.
+
+#### Paralelismo:  
+ – Trata-se da execução simultânea efetiva de múltiplas tarefas em diferentes núcleos ou processadores.  
+ – Um programa paralelo executa mais de uma tarefa exatamente no mesmo momento, utilizando recursos de hardware (multi-core ou múltiplos processadores).  
+ – O paralelismo é uma forma de implementação da concorrência quando se dispõe de hardware que permite a execução simultânea real.
+
+Resumindo, enquanto a concorrência é uma forma de estruturar um programa para que ele possa lidar com várias tarefas (mesmo que essas tarefas não estejam sendo executadas literalmente ao mesmo tempo), o paralelismo se refere à execução dessas tarefas de forma simultânea, quando hardware e ambiente permitem esse comportamento.
+
+### Beleza, agora como que eu uso uma goroutine?
 Para iniciar uma goroutine, basta preceder a chamada da função com a palavra-chave `go`.
 Exemplo:
 
@@ -50,7 +65,7 @@ Neste exemplo, a função anônima é executada como goroutine. Note que usamos 
 ### Usando funções anônimas e variáveis de loop
 Quando se usa uma função anônima dentro de um loop para lançar goroutines, é importante lembrar como as variáveis do loop (como o índice) são capturadas.
 
-#### Erro comum:
+#### Erro comum ⚠️:
 
   ```go
   for i := 1; i <= 5; i++ {
@@ -70,7 +85,6 @@ Goroutine 6
 Goroutine 6
 ```
 
-
 Isso pode fazer com que todas as goroutines imprimam o mesmo valor de `i` (o valor final).
 
 Como você resolveria esse problema? 🤔
@@ -87,7 +101,7 @@ Como você resolveria esse problema? 🤔
 
 Assim cada goroutine recebe seu próprio valor.
 
-### Exemplo de goroutine com loop e time.Sleep
+### Exemplo de goroutine com loop e time.Sleep ⏲️
 - Você pode usar várias goroutines para executar tarefas em paralelo, mas lembre-se de garantir (por `time.Sleep` ou sincronização) que o programa aguarde a execução das goroutines.
 - **Atenção:** Usar o `time.Sleep` não é o indicado, o ideal seria utilizar `channels`, `wait groups` ou `mutex` (dependendo do contexto). Entraremos nesses tópicos mais pra frente.
 - Exemplo:
@@ -111,7 +125,7 @@ Assim cada goroutine recebe seu próprio valor.
   }
   ```
 
-## Exercícios
+## Exercícios 📝
 
 Eu normalmente preciso de prática pra entender algo novo, se não eu apenas escaneio com os olhos e esqueço em seguida.
 
@@ -137,7 +151,7 @@ Caso encontre problemas, em seguida teremos uma sessão de erros mais comuns, e 
    - A segunda goroutine deve, também em um loop de 5 iterações, imprimir "Letra: A, B, C, ..." (você pode fazer algo simples ou uma sequência fixa) com um `time.Sleep` curto entre as iterações.
    - No `main`, após iniciar as goroutines, espere tempo suficiente (com `time.Sleep`) para que ambas concluam suas execuções.
 
-## Erros Comuns com Goroutines
+## Erros Comuns com Goroutines ⚠️
 
 ### Finalizar o programa antes de as goroutines executarem
 - Erro: Não utilizar uma forma (como `time.Sleep`) para dar tempo às goroutines concluírem suas tarefas.
@@ -159,3 +173,160 @@ Caso encontre problemas, em seguida teremos uma sessão de erros mais comuns, e 
 
 ### Não tratar a passagem de parâmetros na função anônima
 - Erro: Caso seja necessário passar um valor para a goroutine, esquecer de passá-lo como argumento da função pode fazer com que a referência seja capturada mesmo após alteração externa.
+
+## Solução dos exercícios
+Pra não ter que ficar rodando manualmente cada exercício, eu usei testes e [exemplos testáveis](https://go.dev/blog/examples).
+### Exercício 1:
+```go
+// main.go
+func Ex1() {
+	go func() {
+		fmt.Println("Olá, Go!")
+	}()
+	time.Sleep(time.Second)
+}
+
+// main_test.go
+func ExampleEx1() {
+	Ex1()
+	// output: Olá, Go!
+}
+```
+
+### Exercício 2:
+```go
+// main.go
+func Ex2() {
+	go func() {
+		fmt.Println("Executando função anônima na goroutine")
+	}()
+	time.Sleep(time.Second)
+}
+
+// main_test.go
+func ExampleEx2() {
+	Ex2()
+	// output: Executando função anônima na goroutine
+}
+```
+
+### Exercício 3:
+```go
+// main.go
+func Ex3() {
+	for i := range 5 {
+		go func(i int) {
+			fmt.Println("Goroutine", i)
+		}(i)
+	}
+	time.Sleep(time.Second)
+}
+
+// main_test.go
+// Tive que fazer esse helper pra conseguir pegar o valor de /dev/stdout 
+// (já que a ordem de exibição é aleatória)
+func captureOutput(f func()) string {
+	orig := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+	f()
+	os.Stdout = orig
+	w.Close()
+	out, _ := io.ReadAll(r)
+	return string(out)
+}
+
+func TestEx3(t *testing.T) {
+	out := captureOutput(Ex3)
+	expectedOutputs := []string{
+		"Goroutine 0",
+		"Goroutine 1",
+		"Goroutine 2",
+		"Goroutine 3",
+		"Goroutine 4",
+	}
+	for _, expected := range expectedOutputs {
+		if !strings.Contains(out, expected) {
+			t.Fatal("Output not generated: ", expected, " got: ", out)
+		}
+	}
+}
+```
+
+### Exercício 4:
+```go
+// main.go
+func trabalhoDemorado() {
+	fmt.Println("Iniciando trabalho demorado")
+	time.Sleep(2 * time.Second)
+	fmt.Println("Trabalho demorado finalizado")
+}
+
+func Ex4() {
+	fmt.Println("Lançando trabalho demorado")
+	go trabalhoDemorado()
+	time.Sleep(3 * time.Second)
+}
+
+// main_test.go
+func ExampleEx4() {
+	Ex4()
+	// output:
+	// Lançando trabalho demorado
+	// Iniciando trabalho demorado
+	// Trabalho demorado finalizado
+}
+```
+
+### Exercício 5:
+```go
+// main.go
+func Ex5() {
+	alphabet := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	go func() {
+		for i := range 5 {
+			fmt.Printf("Número: %d\n", i)
+			time.Sleep(200 * time.Millisecond)
+		}
+	}()
+	go func() {
+		for i := range 5 {
+			fmt.Printf("Letra: %s\n", string(alphabet[i]))
+			time.Sleep(200 * time.Millisecond)
+		}
+	}()
+	time.Sleep(5 * time.Second)
+}
+
+// main_test.go
+func TestEx4(t *testing.T) {
+	out := captureOutput(Ex5)
+	expectedOutputs := []string{
+		"Número: 0",
+		"Número: 1",
+		"Número: 2",
+		"Número: 3",
+		"Número: 4",
+		"Letra: A",
+		"Letra: B",
+		"Letra: C",
+		"Letra: D",
+		"Letra: E",
+	}
+	for _, expected := range expectedOutputs {
+		if !strings.Contains(out, expected) {
+			t.Fatal("Output not generated: ", expected, " got: ", out)
+		}
+	}
+}
+
+```
+
+## Próximos passos!
+Em seguida iremos abordar Wait Groups! Mas o artigo não saiu ainda... 
+Fique atento para os próximos dias! 
+
+## Referências:
+- [Concorrência e Paralelismo - Fabio Akita](https://www.youtube.com/watch?v=cx1ULv4wYxM)
+- [Go TDD - Concorrência](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/concurrency)
+- [Effective Go - Concorrência](https://go.dev/doc/effective_go#concurrency)
