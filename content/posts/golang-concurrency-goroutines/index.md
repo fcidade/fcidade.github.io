@@ -323,8 +323,7 @@ func TestEx5(t *testing.T) {
 ```
 
 ## Próximos passos!
-Em seguida iremos abordar Wait Groups! Mas o artigo não saiu ainda... 
-Fique atento para os próximos dias! 
+Em seguida iremos abordar Wait Groups! [Clique aqui para a parte 2!](https://fcidade.com/posts/golang-concurrency-waitgroups/)
 
 ## Referências:
 - [Concorrência e Paralelismo - Fabio Akita](https://www.youtube.com/watch?v=cx1ULv4wYxM)

@@ -62,24 +62,24 @@ Exemplo de 5 goroutines:
 package main
 
 import (
-		"fmt"
-		"sync"
+	"fmt"
+	"sync"
 )
 
 func main() {
-		var wg sync.WaitGroup
-		
-		// Adiciona 5 antes de iniciar o loop
-		for i := 1; i <= 5; i++ {
-				wg.Add(1)
-				go func(n int) {
-						defer wg.Done()
-						fmt.Printf("Goroutine %d executando\n", n)
-				}(i)
-		}
-		
-		// Aguarda que todas as goroutines terminem
-		wg.Wait()
+	var wg sync.WaitGroup
+	
+	// Adiciona 5 antes de iniciar o loop
+	for i := 1; i <= 5; i++ {
+		wg.Add(1)
+		go func(n int) {
+			defer wg.Done()
+			fmt.Printf("Goroutine %d executando\n", n)
+		}(i)
+	}
+	
+	// Aguarda que todas as goroutines terminem
+	wg.Wait()
 }
 ```
 
@@ -92,27 +92,27 @@ Exemplo:
 package main
 
 import (
-		"fmt"
-		"sync"
-		"time"
+	"fmt"
+	"sync"
+	"time"
 )
 
 // Função que simula um trabalho demorado
 func trabalhoDemorado(wg *sync.WaitGroup) {
-		defer wg.Done()  // Informa que esta goroutine terminou sua execução
-		fmt.Println("Iniciando trabalho demorado")
-		time.Sleep(2 * time.Second)
-		fmt.Println("Trabalho demorado finalizado")
+	defer wg.Done()  // Informa que esta goroutine terminou sua execução
+	fmt.Println("Iniciando trabalho demorado")
+	time.Sleep(2 * time.Second)
+	fmt.Println("Trabalho demorado finalizado")
 }
 
 func main() {
-		var wg sync.WaitGroup
-		wg.Add(1)
-		
-		go trabalhoDemorado(&wg)
-		
-		// O main aguarda o término do trabalhoDemorado
-		wg.Wait()
+	var wg sync.WaitGroup
+	wg.Add(1)
+	
+	go trabalhoDemorado(&wg)
+	
+	// O main aguarda o término do trabalhoDemorado
+	wg.Wait()
 }
 ```
 
