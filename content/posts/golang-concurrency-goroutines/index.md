@@ -299,7 +299,7 @@ func Ex5() {
 }
 
 // main_test.go
-func TestEx4(t *testing.T) {
+func TestEx5(t *testing.T) {
 	out := captureOutput(Ex5)
 	expectedOutputs := []string{
 		"Número: 0",
