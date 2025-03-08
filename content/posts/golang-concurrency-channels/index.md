@@ -1,6 +1,6 @@
 ---
 title: "Concorrência e Paralelismo com Golang - Channels"
-date: 2025-03-07T10:05:00-03:00
+date: 2025-03-07T11:05:00-03:00
 draft: false # Set 'false' to publish
 tableOfContents: true # Enable/disable Table of Contents
 description: "Este artigo explora o uso de Channels em Go para comunicação e sincronização entre goroutines. Aprenda como usar Channels, veja exemplos práticos e exercícios para reforçar o aprendizado."
