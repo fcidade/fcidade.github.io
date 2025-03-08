@@ -1,7 +1,7 @@
 ---
 title: "Termo / Wordle"
 date: 2025-03-07
-draft: false 
+draft: true
 description: "Tentativa de recriar o Termo/Wordle"
 categories:
   - Games
