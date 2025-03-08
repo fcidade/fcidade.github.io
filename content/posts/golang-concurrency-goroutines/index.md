@@ -329,3 +329,4 @@ Em seguida iremos abordar Wait Groups! [Clique aqui para a parte 2!](https://fci
 - [Concorrência e Paralelismo - Fabio Akita](https://www.youtube.com/watch?v=cx1ULv4wYxM)
 - [Go TDD - Concorrência](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/concurrency)
 - [Effective Go - Concorrência](https://go.dev/doc/effective_go#concurrency)
+- [Go By Example](https://gobyexample.com/)

@@ -37,7 +37,7 @@ import (
 )
 
 func main() {
-	wg := sync.WaitGroup{}
+	wg := &sync.WaitGroup{}
 	wg.Add(1)  // Informa que teremos uma goroutine a ser sincronizada
 
 	go func() {
@@ -67,7 +67,7 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup
+	wg := &sync.WaitGroup{}
 	
 	// Adiciona 5 antes de iniciar o loop
 	for i := 1; i <= 5; i++ {
@@ -98,18 +98,20 @@ import (
 )
 
 // Função que simula um trabalho demorado
-func trabalhoDemorado(wg *sync.WaitGroup) {
-	defer wg.Done()  // Informa que esta goroutine terminou sua execução
+func trabalhoDemorado() {
 	fmt.Println("Iniciando trabalho demorado")
 	time.Sleep(2 * time.Second)
 	fmt.Println("Trabalho demorado finalizado")
 }
 
 func main() {
-	var wg sync.WaitGroup
+	wg := &sync.WaitGroup{}
 	wg.Add(1)
 	
-	go trabalhoDemorado(&wg)
+	go func() {
+		defer wg.Done()
+		trabalhoDemorado()
+	}()
 	
 	// O main aguarda o término do trabalhoDemorado
 	wg.Wait()
@@ -168,18 +170,18 @@ Pra não ter que ficar rodando manualmente cada exercício, eu usei testes e [ex
 // main.go
 func Ex1() {
 	// Cria uma instância de WaitGroup.
-	wg := sync.WaitGroup{}
+	wg := &sync.WaitGroup{}
 
 	// Adiciona um contador ao WaitGroup.
 	wg.Add(1)
 
 	// Inicia uma nova goroutine.
-	go func(wg *sync.WaitGroup) {
+	go func() {
 		// Garante que Done será chamado quando a goroutine terminar.
 		defer wg.Done()
 		// Imprime uma mensagem.
 		fmt.Println("Olá, WaitGroup!")
-	}(&wg) // Passa o ponteiro do WaitGroup para a goroutine.
+	}()
 
 	// Aguarda até que o contador do WaitGroup seja zero.
 	wg.Wait()
@@ -197,16 +199,16 @@ func ExampleEx1() {
 ```go
 // main.go
 func Ex2() {
-	wg := sync.WaitGroup{}
+	wg := &sync.WaitGroup{}
 
 	for i := range 5 {
 		// Atenção! Não esqueça de chamar o wg.Add(1) p/ cada iteração do for
 		// OU use um wg.Add(5) antes do for!
 		wg.Add(1)
-		go func(wg *sync.WaitGroup, i int) {
+		go func(i int) {
 			defer wg.Done()
 			fmt.Println("Goroutine", i)
-		}(&wg, i)
+		}(i)
 
 		wg.Wait()
 	}
@@ -255,10 +257,13 @@ func trabalhoDemorado(wg *sync.WaitGroup) {
 }
 
 func Ex3() {
-	wg := sync.WaitGroup{}
+	wg := &sync.WaitGroup{}
 
 	wg.Add(1)
-	go trabalhoDemorado(&wg)
+	go func () {
+		defer wg.Done()
+		trabalhoDemorado(&wg)
+	}()
 
 	wg.Wait()
 }
@@ -282,22 +287,22 @@ func Ex4() {
 	alphabet := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 	wg.Add(1)
-	go func(wg *sync.WaitGroup) {
+	go func() {
 		defer wg.Done()
 		for i := range 5 {
 			fmt.Printf("Número: %d\n", i)
 			time.Sleep(200 * time.Millisecond)
 		}
-	}(wg)
+	}()
 
 	wg.Add(1)
-	go func(wg *sync.WaitGroup) {
+	go func() {
 		defer wg.Done()
 		for i := range 5 {
 			fmt.Printf("Letra: %s\n", string(alphabet[i]))
 			time.Sleep(200 * time.Millisecond)
 		}
-	}(wg)
+	}()
 
 	wg.Wait()
 }
@@ -327,7 +332,7 @@ func TestEx4(t *testing.T) {
 
 
 ## Próximos passos!
-Em seguida iremos abordar Channels! Fique atento para os próximos dias!
+Em seguida iremos abordar Channels! [Clique aqui para a parte 3!](https://fcidade.com/posts/golang-concurrency-channels/)
 
 ## Referências
 - [Concorrência e Paralelismo - Fabio Akita](https://www.youtube.com/watch?v=cx1ULv4wYxM)
