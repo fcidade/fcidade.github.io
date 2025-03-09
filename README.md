@@ -21,3 +21,5 @@ https://www.youtube.com/@FloatyMonkey/videos
 https://web.archive.org/web/20200925072353/http://roguebasin.roguelikedevelopment.org/index.php?title=Main_Page
 https://www.youtube.com/@mattbatwings
 - Ensinar redstone
+
+Canal de programacao low level, concorrencia, transistors e etc: Core Dumped
